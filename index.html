@@ -22,8 +22,8 @@
         var map = new maplibregl.Map({
             container: 'map',
             style: 'https://api.maptiler.com/maps/streets-v2/style.json?key=QjCZXnsGZAfLPiMGCTBy',
-            center: [29.2289, -1.6835], // Goma, DRC (Longitude, Latitude)
-            zoom: 11,                   // Adjust the zoom level as needed
+            center: [0, 0], 
+            zoom: 2,                   
             hash: true,
         });
 
@@ -31,6 +31,14 @@
             map.addSource('goma_town', {
                 'type': 'geojson',
                 'data': 'https://api.maptiler.com/data/01988a07-77d5-75e3-bd63-e1ab33fcf884/features.json?key=QjCZXnsGZAfLPiMGCTBy',
+            })
+
+            map.flyTo({
+                center: [29.2289, -1.6835],
+                zoom: 11,
+                speed: 1.6, // Adjusting the speed (1 is slow, and 2 is faster)
+                curve: 1.5, // Animation curve (default 1.42)
+                essential: true
             })
 
             map.addLayer({
