@@ -1,10 +1,68 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>My Map</title>
 
-    </head>
-    <body>
-        
-    </body>
-</html>
+<head>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <script src='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.js'></script>
+    <link href='https://unpkg.com/maplibre-gl@2.4.0/dist/maplibre-gl.css' rel='stylesheet' />
+    <style>
+        #map {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <script type="text/javascript"">
+        var map = new maplibregl.Map({
+            container: 'map',
+            style: 'https://api.maptiler.com/maps/streets-v2/style.json?key=QjCZXnsGZAfLPiMGCTBy',
+            center: [0, 0],
+            zoom: 0,
+            hash: true,
+        });
+
+        map.on('load', function () {
+            map.addSource('goma_town', {
+                'type': 'geojson',
+                'data': 'https://api.maptiler.com/data/01988a07-77d5-75e3-bd63-e1ab33fcf884/features.json?key=QjCZXnsGZAfLPiMGCTBy',
+            })
+
+            map.addLayer({
+                'id': 'polygons',
+                'type': 'fill',
+                'source': 'goma_town',
+                'layout': {},
+                'paint': {
+                    'fill-color': 'transparent',
+                    'fill-opacity': 0.5
+                }
+            });
+
+            map.addLayer({
+                'id': 'outline',
+                'type': 'line',
+                'source': 'goma_town',
+                'layout': {},
+                'paint': {
+                    'line-color': 'blue',
+                    'line-width': 2
+                }
+            });
+
+            map.on('click', 'goma_town', function(e) {
+                new maplibregl.Popup()
+                    .setLngLat(e.lngLat)
+                    .setHTML('<h3>' + " Name of neighborhood: " + '</h3><p>' + e.features[0].properties.name + '</p>')
+                    .addTo(map);
+                    console.log(e);
+            });
+        });
+
+    </script>
+</body>
