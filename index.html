@@ -22,8 +22,8 @@
         var map = new maplibregl.Map({
             container: 'map',
             style: 'https://api.maptiler.com/maps/streets-v2/style.json?key=QjCZXnsGZAfLPiMGCTBy',
-            center: [0, 0],
-            zoom: 0,
+            center: [29.2289, -1.6835], // Goma, DRC (Longitude, Latitude)
+            zoom: 11,                   // Adjust the zoom level as needed
             hash: true,
         });
 
@@ -55,12 +55,12 @@
                 }
             });
 
-            map.on('click', 'goma_town', function(e) {
+            map.on('click', 'goma_town', function (e) {
                 new maplibregl.Popup()
                     .setLngLat(e.lngLat)
                     .setHTML('<h3>' + " Name of neighborhood: " + '</h3><p>' + e.features[0].properties.name + '</p>')
                     .addTo(map);
-                    console.log(e);
+                console.log(e);
             });
         });
 
