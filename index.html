@@ -50,6 +50,8 @@
             trackuserLocation: true
         })
 
+        // Displaying neighborhoods on the map from a dataset stored on maptiler through an API
+
         map.on('load', function () {
             map.addSource('goma_town', {
                 'type': 'geojson',
@@ -86,12 +88,16 @@
                 }
             });
 
+            // Displaying the Popup when one of the polygon is clicked on
+
             map.on('click', 'polygons', function(e) {
                 new maplibregl.Popup()
                 .setLngLat(e.lngLat)
                 .setHTML('<h4>' + "Name of neighborhood: " + '<p>' + e.features[0].properties.name + "</h4></p>")
                 .addTo(map);
             })
+
+            // Display the user location on the map 
 
         map.addControl(geolocate);
         geolocate.on('userlocationend', function () {
